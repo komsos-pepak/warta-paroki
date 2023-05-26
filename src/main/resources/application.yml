@@ -1,0 +1,99 @@
+spring:
+    data:
+        redis:
+            host: 192.168.27.202
+            port: 50002
+            repositories:
+                enabled: false
+            timeout: 10000ms
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://192.168.27.202:60002/wartaparoki
+        username: rspr
+        password: rspr123$%
+        hikari:
+            connection-timeout: 10000
+            idle-timeout: 120000
+            maximum-pool-size: 20
+            minimum-idle: 2
+    security:
+        oauth2:
+            client:
+                registration:
+                    google:
+                        clientId: 927161013527-97uk1ngf933nvnjejflj9el1pocsf65d.apps.googleusercontent.com
+                        clientSecret: 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
+                        scope:
+                            - email
+                            - profile
+
+                    facebook:
+                        clientId: YOUR_FACEBOOK_APP_CLIENT_ID
+                        clientSecret: YOUR_FACEBOOK_APP_SECRET_KEY
+                        scope:
+                            - email
+                            - public_profile
+    flyway:
+        enabled: true
+    jackson:
+        time-zone: Asia/Jakarta
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                '[format_sql]': true
+                jdbc:
+                    '[time_zone]': Asia/Jakarta
+        show-sql: true
+    mvc:
+        throw-exception-if-no-handler-found: true
+    web:
+        resources:
+            add-mappings: false
+
+server:
+    error:
+        whitelabel:
+            enabled: false
+    forward-headers-strategy: framework
+    port: 8181
+    servlet:
+        context-path: /api/manajemen-pengguna
+
+grpc:
+    server:
+        port: 9191
+
+logging:
+    pattern:
+        dateformat: yyyy-MM-dd HH:mm:ss.SSS,Asia/Jakarta
+    level:
+        org:
+            hibernate:
+                SQL: INFO
+                type:
+                    descriptor:
+                        sql:
+                            BasicBinder: INFO
+
+springdoc:
+    packagesToScan: komsos.wartaparoki
+    pathsToMatch: /v1, /v1/**
+
+application:
+    access-token-cookie-name: komsos-5Gpy7h
+    access-token-expiration-milisec: 10000000
+    allowed-cors: http://localhost:3000,http://localhost:3001,http://localhost:3002,http://localhost.komsos.id:3000,https://localhost.komsos.id:3000
+    api-prefix: /api/manajemen-pengguna
+    cookie-domain: localhost
+    cookie-same-site: None
+    cookie-secure: false
+    name: "@project.artifactId@"
+    refresh-token-cookie-name: komsos-VuVZ85
+    refresh-token-expiration-milisec: 86400000
+    security-cipher-key: komsos-ZmArlZ7PLSNnPb0P
+    token-secret: komsos_algorithm
+    version: "@project.version@"
+    authorized-redirect-uris: http://localhost:3000/akuntansi/login/redirect,http://localhost:3000/manajemen-pengguna/login/redirect,http://localhost:3001/akuntansi/login/redirect,http://localhost:3001/manajemen-pengguna/login/redirect,https://dev.erp.komsos.id/akuntansi/login/redirect,https://dev.erp.komsos.id/manajemen-pengguna/login/redirect,https://homelab-erp.oadcah.my.id/akuntansi/login/redirect,https://homelab-erp.oadcah.my.id/api/akuntansi/login/redirect

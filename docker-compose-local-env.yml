@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  postgre_dev:
+    image: postgres:15.1-alpine
+    ports:
+      - 60001:5432
+    networks:
+      - spring_network
+    environment:
+      POSTGRES_DB: manajemen_pengguna
+      POSTGRES_USER: komsos
+      POSTGRES_PASSWORD: komsosPass
+    volumes:
+      - postgre-data:/var/lib/postgresql/data
+
+  redis_dev:
+    image: redis:7.0.5-alpine
+    ports:
+      - 50001:6379
+    networks:
+      - spring_network
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+  
+  komsos_wartaparoki_svc:
+    image: local-komsos-wartaparoki-spring:latest-dev
+    ports:
+      - 8081:8081
+    networks:
+      - spring_network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:60001/wartaparoki
+      - SPRING_DATASOURCE_USERNAME=komsos
+      - SPRING_DATASOURCE_PASSWORD=komsosPass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      - SPRING_FLYWAY_ENABLE=true
+      - SERVER_PORT=8081
+      - SPRING_DATA_REDIS_HOST=host.docker.internal
+      - SPRING_DATA_REDIS_PORT=50001
+      - APPLICATION_TOKEN_EXPIRATION_MILISEC=25000000
+      - APPLICATION_ACCESS_TOKEN_EXPIRATION_MILISEC=86400000
+
+volumes:
+  postgre-data:
+
+
+networks:
+  spring_network:
+    external: true
